@@ -1,0 +1,11 @@
+[rig]
+file=/dev/ttyUSB0
+baudrate=19200
+timeout=1
+
+[daemon]
+host=127.0.0.1
+port=4532
+
+[logging]
+level=INFO
