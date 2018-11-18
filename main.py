@@ -142,14 +142,20 @@ def exec_cmd(cmd):
     output_bytes('REQ ', req)
     ser.write(req)
 
-    echo = ser.read(len(req))
-
     resp = b''
-    while True:
-        c = ser.read()
-        resp = resp + c
-        if c == b'\xfd':
-            break
+
+    echo = ser.read(len(req))
+    if echo:
+        while True:
+            c = ser.read()
+            if not c:
+                rigctl_logger.warning('Could not read from the rig!')
+                break
+            resp = resp + c
+            if c == b'\xfd':
+                break
+    else:
+        rigctl_logger.warning('Could not read from the rig!')
 
     output_bytes('RESP', echo + resp)
 
